@@ -77,6 +77,59 @@ public class LinkedListExample {
         }
     }
 
+    public void deleteMiddleNode() {
+        if (head == null || head.next == null) {
+            return;
+        }
+        Node slow = head;
+        Node fast = head;
+        Node prev = null;
+
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            prev = slow;
+            slow = slow.next;
+        }
+        prev.next = slow.next;
+
+    }
+
+    public void rotateCounterClockwise(int k) {
+        if (head == null || head.next == null || k <= 0) {
+            // Empty list, only one element, or invalid rotation
+            return;
+        }
+
+        int length = 1;
+        Node current = head;
+
+        // Find the length of the linked list
+        while (current.next != null) {
+            current = current.next;
+            length++;
+        }
+
+        // Adjust k to handle rotations greater than the length of the list
+        k = k % length;
+
+        if (k == 0) {
+            // No rotation required
+            return;
+        }
+
+        Node newHead = head;
+        Node tail = current;
+
+        // Find the new head and tail after rotation
+        for (int i = 0; i < length - k - 1; i++) {
+            newHead = newHead.next;
+        }
+
+        tail.next = head;
+        head = newHead.next;
+        newHead.next = null;
+    }
+
     public void find(int key) {
         Node current = head;
         int count = 0;
