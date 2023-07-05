@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class LinkedListExample {
     private Node head; // get the head
 
@@ -144,6 +146,133 @@ public class LinkedListExample {
         System.out.println("Data not Found");
     }
 
+    public boolean isCircular() {
+        if (head == null) {
+            return true;
+        }
+        Node current = head;
+        while (current != null && current != head) {
+            current = current.next;
+        }
+        return current == head;
+    }
+
+    public void removeDuplicates() {
+        Node current = head;
+        if (head == null || head.next == null) {
+            return;
+        }
+        while (current != null && current.next != null) {
+            if (current.data == current.next.data) {
+                current.next = current.next.next;
+            } else {
+                current = current.next;
+            }
+        }
+    }
+
+    void removeNAfterMNodes(int m, int n) {
+        Node current = head, temp = null;
+
+        while (current != null) {
+            for (int i = 1; i < m && current != null; i++) {
+                current = current.next;
+            }
+            if (current == null) {
+                return;
+            }
+            temp = current.next;
+            for (int i = 1; i < n && temp != null; i++) {
+                temp = temp.next;
+            }
+            current.next = temp;
+            current = temp;
+        }
+    }
+
+    void reverse() {
+        Node p1 = null, p2 = head;
+        while (p2 != null) {
+            Node p3 = p2.next;
+            p2.next = p1;
+            p1 = p2;
+            p2 = p3;
+        }
+        head = p1;
+    }
+
+    Node reverseAlternateNode(Node head, int k) {
+        int count = 0;
+        Node p1 = null, p2 = head;
+        while (p2 != null && count < k) {
+            Node p3 = p2.next;
+            p2.next = p1;
+            p1 = p2;
+            p2 = p3;
+            count++;
+        }
+        count = 0;
+        while (p2 != null && count < k) {
+            p2 = p2.next;
+            count++;
+        }
+        if (p2.next != null) {
+            p2.next = reverseAlternateNode(p2.next, k);
+        }
+
+        return head = p1;
+
+    }
+
+    boolean detectLoop() {
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            while (fast == slow) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    int getNNodeFromEnd(int n) {
+        Node slow = head, fast = head;
+        // move n pointers ahead.
+        for (int i = 0; i < n; i++) {
+            if (fast == null) {
+                return -1;
+            }
+            fast = fast.next;
+        }
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow.data;
+    }
+
+    boolean isPalindrome() {
+        Node current = head, temp = head;
+        boolean check = false;
+        Stack<Integer> stack = new Stack<>();
+        while (current != null && current.next != null) {
+            stack.push(current.data);
+            current = current.next;
+        }
+        while (temp != null && temp.next != null) {
+            int i = stack.pop();
+            if (temp.data == i) {
+                check = true;
+            } else {
+                check = false;
+                break;
+            }
+            temp = temp.next;
+        }
+        return check;
+    }
+
     // Display the linked list
     public void display() {
         Node current = head;
@@ -154,20 +283,6 @@ public class LinkedListExample {
         System.out.println();
     }
 
-    public void reverse() {
-
-        Node prev = null;
-        Node current = head;
-        Node next = null;
-        while (current != null) {
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-        }
-
-        head = prev;
-    }
 }
 
 class Node {

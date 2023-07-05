@@ -13,6 +13,9 @@ public class Driver {
         System.out.println("Original linked list:");
         linkedList.display();
 
+        linkedList.removeNAfterMNodes(2, 2);
+        linkedList.display();
+
         // // Delete the Middle Node
         // linkedList.deleteMiddleNode();
         // System.out.println("Deleting the Middle Node");
